@@ -21,10 +21,10 @@ function renderWithRedux(
 }
 
 describe('Home Page', () => {
-
     it('should render properly', () => {
         const {getByText} = renderWithRedux(<HomePage/>);
 
-        expect(getByText(/HOME PAGE/i));
+        expect(getByText(/reddis post/i));
+        expect(getByText(/dismiss all/i));
     });
 });
