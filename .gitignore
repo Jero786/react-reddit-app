@@ -1,0 +1,22 @@
+# dependencies
+client/node_modules
+server/node_modules
+
+# production
+server/build
+
+.DS_Store
+.idea
+
+# misc
+server/.DS_Store
+serve/.env
+serve/.env.production.local
+
+client/.DS_Store
+client/.env
+client/.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
