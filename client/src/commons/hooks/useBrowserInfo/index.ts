@@ -52,7 +52,7 @@ const getBrowserInfo = (layout: LayoutType) => {
 
 /**
  * A custom Hook that provide a full-closure object to know about some Browser information,
- * such the current breackpoint, orientation, etc.
+ * like the current breackpoint, orientation, etc.
  */
 export const useBrowserInfo: any = () => {
     const sizes = calculateSizes(window.innerWidth);
