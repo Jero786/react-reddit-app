@@ -57,3 +57,9 @@ export const Drawer: React.FC<DefaultProps> = ({
 const Button: React.FC<DefaultPropsButton> = ({text}) => <button
     className={`mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-footer`}>{text}</button>
 
+const PaginationButton: React.FC<DefaultPropsButton> = ({isLoading, text, className, onClick}) => {
+    return (<button onClick={onClick}
+                    className={`mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored btn-pagination`}>
+        <i
+            className="material-icons">{text}</i></button>);
+}

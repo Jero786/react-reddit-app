@@ -1,30 +1,52 @@
 import React from 'react';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import {render, fireEvent} from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import {reducer} from '.';
-import {initialState} from './reducers';
-import {HomePage} from './Page'
+import {useSelector, useDispatch} from 'react-redux';
+import { HomePage} from './Page'
+import {render} from '@testing-library/react';
 
-function renderWithRedux(
-    ui: any,
-    {initialState, store = createStore(reducer, initialState)}: any = {}
-) {
-    return {
-        ...render(<Provider store={store}>{ui}</Provider>),
-        // adding `store` to the returned utilities to allow us
-        // to reference it in our tests (just try to avoid using
-        // this to test implementation details).
-        store,
-    }
-}
+import {
+    selectIsRequestingNews,
+} from './selectors';
+
+jest.mock('react-redux', () => ({
+    useSelector: jest.fn(),
+    useDispatch: jest.fn(),
+}));
+
+jest.mock('./selectors');
+
+jest.mock('./hooks');
 
 describe('Home Page', () => {
+
+    beforeEach(() => {
+        useSelector.mockImplementation(callback => {
+            return callback();
+        });
+        useDispatch.mockImplementation(callback => {
+            return callback();
+        });
+    });
+
+    afterEach(() => {
+        useSelector.mockClear();
+        useDispatch.mockClear();
+    });
+
+    it('should should loading', () => {
+        selectIsRequestingNews.mockResolvedValueOnce(true);
+
+        const {getByTestId} = render(<HomePage/>);
+
+        expect(getByTestId('locator-loading')).toBeInTheDocument();
+    });
+
+
     it('should render properly', () => {
-        const {getByText} = renderWithRedux(<HomePage/>);
+        const {getByText, debug} = render(<HomePage/>);
 
         expect(getByText(/reddis post/i));
         expect(getByText(/dismiss all/i));
     });
+
 });
+
