@@ -1,5 +1,6 @@
 import {PayloadAction} from "@reduxjs/toolkit";
 import {Post} from '../../commons/types';
+import {getAllSavedPost} from '../../commons/middlewares/saveSession';
 
 export interface DefaultState {
     news: Post[]
@@ -12,7 +13,7 @@ export interface DefaultState {
 }
 
 export const initialState: DefaultState = {
-    news: [],
+    news: getAllSavedPost(),
     isRequestingNews: true,
     isRequestingNextPage: false,
     messageError: '',
@@ -32,7 +33,7 @@ export const reducers = {
     },
 
     fetchingPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
-        state.news = action.payload;
+        state.news = hydratePostWithExistingPost(state, action.payload);
         state.isRequestingNews = false;
         state.messageError = '';
     },
@@ -46,6 +47,7 @@ export const reducers = {
         const postToDismiss = state.news.find(post => post.id === action.payload.id);
         if (postToDismiss) {
             postToDismiss.isViewed = true;
+            postToDismiss.isNeededToPersistState = true;
             state.currentPostSelected = action.payload;
         }
     },
@@ -54,6 +56,7 @@ export const reducers = {
         const postToDismiss = state.news.find(post => post.id === action.payload.id);
         if (postToDismiss) {
             postToDismiss.isDismissed = true;
+            postToDismiss.isNeededToPersistState = true;
             if (state.currentPostSelected && state.currentPostSelected.id === postToDismiss.id) {
                 state.currentPostSelected = undefined;
             }
@@ -64,9 +67,25 @@ export const reducers = {
         state.isDismissedAll = !state.isDismissedAll;
         state.news = state.news.map(post => {
             post.isDismissed = state.isDismissedAll;
+            post.isNeededToPersistState = true;
             return post;
         });
         state.currentPostSelected = undefined;
     }
 };
 
+/**
+ * Replace new post by already existing ones saved in local cache.
+ * @param state
+ * @param newPosts
+ */
+function hydratePostWithExistingPost(state: DefaultState, newPosts: Post[] = []): Post[] {
+    const existingPost = state.news || [];
+    if (existingPost.length) {
+        const existingPostId = existingPost.map(post => post.id);
+        const newPostsFiltered = newPosts.filter(post => existingPostId.indexOf(post.id) === -1);
+        return [...existingPost, ...newPostsFiltered];
+    } else {
+        return newPosts;
+    }
+}
