@@ -28,6 +28,9 @@ cd client && yarn test
 cd server && yarn test
 ```  
 
+## Environment variables 
+You will need to define your own `.env` file. As a reference, you could check the existing `.env.example` on each app.
+
 ## Deploy to staging    
 ```  
  cd client && yarn build

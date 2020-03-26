@@ -10,12 +10,10 @@ server/build
 
 # misc
 server/.DS_Store
-serve/.env
-serve/.env.production.local
+server/.env
 
 client/.DS_Store
 client/.env
-client/.env.production.local
 
 npm-debug.log*
 yarn-debug.log*
