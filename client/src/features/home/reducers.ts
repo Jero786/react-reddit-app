@@ -32,15 +32,31 @@ export const reducers = {
         state.messageError = '';
     },
 
+    fetchingNextPost: (state: DefaultState) => {
+        state.isRequestingNextPage = true;
+        state.messageError = '';
+    },
+
     fetchingPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
         state.news = hydratePostWithExistingPost(state, action.payload);
         state.isRequestingNews = false;
         state.messageError = '';
     },
 
+    fetchingNextPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
+        state.news = action.payload;
+        state.isRequestingNextPage = false;
+        state.messageError = '';
+    },
+
     fetchingPostFailure: (state: DefaultState) => {
         state.isRequestingNews = false;
         state.messageError = 'Something went wrong while fetching posts.'
+    },
+
+    fetchingNextPostFailure: (state: DefaultState) => {
+        state.isRequestingNextPage = false;
+        state.messageError = 'Something went wrong while fetching next Posts.'
     },
 
     postSelected: (state: DefaultState, action: PayloadAction<any>) => {

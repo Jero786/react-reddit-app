@@ -1,13 +1,14 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-
-import {HomePageWrapper} from './styles';
 import {actions} from '.';
+import {fetchNextPosts} from './actions';
+import {HomePageWrapper} from './styles';
+
 import {Post} from '../../commons/components/post';
-import {PostDetail} from '../../commons/components/post-detail';
 import {Drawer} from '../../commons/components/drawer';
 import {Loading} from '../../commons/components/loading';
-
+import {useBrowserInfo} from '../../commons/hooks/useBrowserInfo';
+import {PostDetail} from '../../commons/components/post-detail';
 import {
     selectNews,
     selectIsRequestingNews,
@@ -21,6 +22,7 @@ import {
 } from './hooks';
 
 export const HomePage = () => {
+    const browserInfo = useBrowserInfo();
     const isRequestingNews = useSelector(selectIsRequestingNews);
     const news = useSelector(selectNews);
     const isDismissedAll = useSelector(selectIsDismissedAll);
@@ -35,15 +37,15 @@ export const HomePage = () => {
         return <Loading/>
     }
 
-    const isDrawerVisible = true;
-    const isFullExpanded = false;
+    const isDrawerVisible = !postSelected ? true : !browserInfo.isMobile() && browserInfo.isOrientationLandscape();
+    const isFullExpanded = !postSelected && browserInfo.isMobile();
     return (
         <HomePageWrapper isDrawerVisible={isDrawerVisible}>
             <Drawer
                 isLoading={isRequestingNextPage}
                 isDismissedAll={isDismissedAll}
                 onDismissAll={() => dispatch(actions.postDismissedAll())}
-                onNextPage={() => {}}
+                onNextPage={() => dispatch(fetchNextPosts(getLastPost(news)))}
                 isExpanded={isDrawerVisible}
                 isFullExpanded={isFullExpanded}
             >
@@ -72,3 +74,12 @@ export const HomePage = () => {
     );
 };
 
+/**
+ * Given a list of post return the last one.
+ * @param posts
+ */
+function getLastPost(posts: any[]) {
+    if (posts && posts.length) {
+        return posts.slice(-1)[0];
+    }
+}

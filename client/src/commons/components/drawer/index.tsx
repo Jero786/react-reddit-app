@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Aside, Header, Footer, Body} from './styles';
 
 export interface DefaultProps {
@@ -32,6 +32,8 @@ export const Drawer: React.FC<DefaultProps> = ({
                                                    isFullExpanded,
                                                    isDismissedAll,
                                                    onDismissAll,
+                                                   onNextPage,
+                                                   isLoading
                                                }) => {
 
 
@@ -44,6 +46,8 @@ export const Drawer: React.FC<DefaultProps> = ({
                 <Body>
                     {children}
                 </Body>
+                {isDismissedAll ? null :
+                    <PaginationButton onClick={onNextPage} text={isLoading ? 'loop' : 'navigate_next'}/>}
                 <Footer onClick={onDismissAll}>
                     {isDismissedAll ?
                         <Button text="Recover All"/> :
@@ -62,4 +66,4 @@ const PaginationButton: React.FC<DefaultPropsButton> = ({isLoading, text, classN
                     className={`mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored btn-pagination`}>
         <i
             className="material-icons">{text}</i></button>);
-}
+};
