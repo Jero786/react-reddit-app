@@ -1,10 +1,10 @@
 import {useDispatch} from 'react-redux';
 import {useEffect} from 'react';
-import {fetchNews} from './actions';
+import {fetchTop} from './actions';
 
-export const useFetchNews = () => {
+export const useFetchTop = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(fetchNews());
+        dispatch(fetchTop());
     }, []);  /* eslint-disable-line react-hooks/exhaustive-deps */
 };

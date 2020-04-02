@@ -1,8 +1,8 @@
 import {RootState} from '../../app/store';
 import {Post} from '../../commons/types';
 
-export const selectNews = (state: RootState): Post[] => state.home.news;
-export const selectIsRequestingNews = (state: RootState): boolean => state.home.isRequestingNews;
+export const selectPosts = (state: RootState): Post[] => state.home.posts || [];
+export const selectIsRequestingPosts = (state: RootState): boolean => state.home.isRequestingPosts;
 export const selectIsRequestingNextPage = (state: RootState): boolean => state.home.isRequestingNextPage;
 export const selectMessageError = (state: RootState): string => state.home.messageError;
 export const selectIsDismissedAll = (state: RootState): boolean => state.home.isDismissedAll;

@@ -5,7 +5,7 @@ import {HomePage} from './Page'
 import {render} from '@testing-library/react';
 
 import {
-    selectIsRequestingNews,
+    selectIsRequestingPosts,
 } from './selectors';
 
 jest.mock('react-redux', () => ({
@@ -35,7 +35,7 @@ describe('Home Page', () => {
     });
 
     xit('should should loading', () => {
-        selectIsRequestingNews.mockResolvedValueOnce(true);
+        selectIsRequestingPosts.mockResolvedValueOnce(true);
 
         const {getByTestId} = render(<HomePage/>);
 

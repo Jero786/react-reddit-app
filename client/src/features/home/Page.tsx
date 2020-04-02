@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {actions} from '.';
-import {fetchNextPosts} from './actions';
+import {fetchNextTop} from './actions';
 import {HomePageWrapper} from './styles';
 
 import {Post} from '../../commons/components/post';
@@ -10,48 +10,49 @@ import {Loading} from '../../commons/components/loading';
 import {useBrowserInfo} from '../../commons/hooks/useBrowserInfo';
 import {PostDetail} from '../../commons/components/post-detail';
 import {
-    selectNews,
-    selectIsRequestingNews,
+    selectPosts,
+    selectIsRequestingPosts,
     selectMessageError,
     selectIsDismissedAll,
     selectPostSelected,
     selectIsRequestingNextPage
 } from './selectors';
 import {
-    useFetchNews
+    useFetchTop
 } from './hooks';
 
 export const HomePage = () => {
     const browserInfo = useBrowserInfo();
-    const isRequestingNews = useSelector(selectIsRequestingNews);
-    const news = useSelector(selectNews);
+    const isRequestingPosts = useSelector(selectIsRequestingPosts);
+    const posts = useSelector(selectPosts);
     const isDismissedAll = useSelector(selectIsDismissedAll);
     const postSelected = useSelector(selectPostSelected);
     const isRequestingNextPage = useSelector(selectIsRequestingNextPage);
     const messageError = useSelector(selectMessageError);
     const dispatch = useDispatch();
 
-    useFetchNews();
+    useFetchTop();
 
-    if (isRequestingNews) {
+    if (isRequestingPosts) {
         return <Loading/>
     }
 
     const isDrawerVisible = !postSelected ? true : !browserInfo.isMobile() && browserInfo.isOrientationLandscape();
     const isFullExpanded = !postSelected && browserInfo.isMobile();
+
     return (
         <HomePageWrapper isDrawerVisible={isDrawerVisible}>
             <Drawer
                 isLoading={isRequestingNextPage}
                 isDismissedAll={isDismissedAll}
                 onDismissAll={() => dispatch(actions.postDismissedAll())}
-                onNextPage={() => dispatch(fetchNextPosts(getLastPost(news)))}
+                onNextPage={() => dispatch(fetchNextTop(getLastPost(posts)))}
                 isExpanded={isDrawerVisible}
                 isFullExpanded={isFullExpanded}
             >
                 <>
 
-                    {isDrawerVisible && news.map(post => {
+                    {isDrawerVisible && posts.map(post => {
                         return (<Post
                             key={`key-post-${post.id}`}
                             post={post}

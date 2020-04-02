@@ -1,10 +1,11 @@
-import {PayloadAction} from "@reduxjs/toolkit";
+import {PayloadAction} from '@reduxjs/toolkit';
 import {Post} from '../../commons/types';
 import {getAllSavedPost} from '../../commons/middlewares/saveSession';
 
 export interface DefaultState {
-    news: Post[]
-    isRequestingNews: boolean,
+    posts: Post[],
+    after?: string,
+    isRequestingPosts: boolean,
     isRequestingNextPage: boolean,
     messageError: string,
     isDismissedAll: boolean,
@@ -13,8 +14,9 @@ export interface DefaultState {
 }
 
 export const initialState: DefaultState = {
-    news: getAllSavedPost(),
-    isRequestingNews: true,
+    posts: getAllSavedPost(),
+    after: undefined,
+    isRequestingPosts: true,
     isRequestingNextPage: false,
     messageError: '',
     isDismissedAll: false,
@@ -28,7 +30,7 @@ export const initialState: DefaultState = {
 export const reducers = {
 
     fetchingPost: (state: DefaultState) => {
-        state.isRequestingNews = true;
+        state.isRequestingPosts = true;
         state.messageError = '';
     },
 
@@ -38,19 +40,23 @@ export const reducers = {
     },
 
     fetchingPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
-        state.news = hydratePostWithExistingPost(state, action.payload);
-        state.isRequestingNews = false;
+        const {results, after} = action.payload;
+        state.posts = hydratePostWithExistingPost(state, results);
+        state.after = after;
+        state.isRequestingPosts = false;
         state.messageError = '';
     },
 
     fetchingNextPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
-        state.news = action.payload;
+        const {results, after} = action.payload;
+        state.posts = hydratePostWithExistingPost(state, results);
+        state.after = after;
         state.isRequestingNextPage = false;
         state.messageError = '';
     },
 
     fetchingPostFailure: (state: DefaultState) => {
-        state.isRequestingNews = false;
+        state.isRequestingPosts = false;
         state.messageError = 'Something went wrong while fetching posts.'
     },
 
@@ -60,7 +66,7 @@ export const reducers = {
     },
 
     postSelected: (state: DefaultState, action: PayloadAction<any>) => {
-        const postToDismiss = state.news.find(post => post.id === action.payload.id);
+        const postToDismiss = state.posts.find(post => post.id === action.payload.id);
         if (postToDismiss) {
             postToDismiss.isViewed = true;
             postToDismiss.isNeededToPersistState = true;
@@ -69,7 +75,7 @@ export const reducers = {
     },
 
     postDismissed: (state: DefaultState, action: PayloadAction<any>) => {
-        const postToDismiss = state.news.find(post => post.id === action.payload.id);
+        const postToDismiss = state.posts.find(post => post.id === action.payload.id);
         if (postToDismiss) {
             postToDismiss.isDismissed = true;
             postToDismiss.isNeededToPersistState = true;
@@ -81,7 +87,7 @@ export const reducers = {
 
     postDismissedAll: (state: DefaultState) => {
         state.isDismissedAll = !state.isDismissedAll;
-        state.news = state.news.map(post => {
+        state.posts = state.posts.map(post => {
             post.isDismissed = state.isDismissedAll;
             post.isNeededToPersistState = true;
             return post;
@@ -96,7 +102,7 @@ export const reducers = {
  * @param newPosts
  */
 function hydratePostWithExistingPost(state: DefaultState, newPosts: Post[] = []): Post[] {
-    const existingPost = state.news || [];
+    const existingPost = state.posts || [];
     if (existingPost.length) {
         const existingPostId = existingPost.map(post => post.id);
         const newPostsFiltered = newPosts.filter(post => existingPostId.indexOf(post.id) === -1);
