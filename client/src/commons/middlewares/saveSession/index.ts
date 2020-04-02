@@ -1,5 +1,5 @@
 import {Post} from '../../types';
-import {DefaultState} from "../../../features/home/reducers";
+import {DefaultState} from '../../../features/home/reducers';
 import memoize from 'lodash/memoize';
 
 const POST_KEY_PREFIX = 'post-key-';
@@ -34,7 +34,12 @@ export function persistPostChangedIfNeeded(store: CustomStoreProps): void {
 }
 
 function filterPostChanged(store: CustomStoreProps): Post[] {
-    return store.getState().home.news.filter(post => post.isNeededToPersistState);
+    const homeStore = store.getState().home;
+    if (homeStore.posts && homeStore.posts.length > 0) {
+        return store.getState().home.posts.filter(post => post.isNeededToPersistState);
+    } else {
+        return [];
+    }
 }
 
 /**
@@ -43,27 +48,6 @@ function filterPostChanged(store: CustomStoreProps): Post[] {
 const updatePost = memoize((post: Post) => {
     localStorage.setItem(getPostKey(post), JSON.stringify(post));
 });
-
-/**
- * Given a list of post, replace with an existing persisted Post.
- *
- * @param posts
- * @return List<Post> hydrated post.
- * @public
- */
-export function hydrateWithPersistedPost(posts: Post[] = []): Post[] {
-    return posts.map((post) => {
-        const postPersisted = getPostPersisted(post);
-        return postPersisted ? postPersisted : post
-    });
-}
-
-function getPostPersisted(post: Post): (Post | undefined) {
-    const postSaved = localStorage.getItem(getPostKey(post));
-    if (postSaved) {
-        return JSON.parse(postSaved);
-    }
-}
 
 /**
  * Get all post already persisted
@@ -90,7 +74,7 @@ function getPostPersistedByString(key: string): (Post | undefined) {
 }
 
 function cleanUndefinedPost(posts: any[] = []): Post[] {
-    return posts.filter(post => post !== undefined);
+    return posts.filter(post => post !== undefined) || [];
 }
 
 /**
