@@ -1,14 +1,26 @@
-import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {actions} from '.';
-import {fetchNextTop} from './actions';
+// Styles
 import {HomePageWrapper} from './styles';
 
+// Libs
+import React from 'react';
+import get from 'lodash/get';
+
+// Hooks
+import {useFetchTop} from './hooks';
+import {useSelector, useDispatch} from 'react-redux';
+
+// Actions
+import {actions} from '.';
+import {fetchNextTop} from './actions';
+
+// Components
 import {Post} from '../../commons/components/post';
 import {Drawer} from '../../commons/components/drawer';
 import {Loading} from '../../commons/components/loading';
 import {useBrowserInfo} from '../../commons/hooks/useBrowserInfo';
 import {PostDetail} from '../../commons/components/post-detail';
+
+// Selectors
 import {
     selectPosts,
     selectIsRequestingPosts,
@@ -17,9 +29,6 @@ import {
     selectPostSelected,
     selectIsRequestingNextPage
 } from './selectors';
-import {
-    useFetchTop
-} from './hooks';
 
 export const HomePage = () => {
     const browserInfo = useBrowserInfo();
@@ -51,17 +60,18 @@ export const HomePage = () => {
                 isFullExpanded={isFullExpanded}
             >
                 <>
-
-                    {isDrawerVisible && posts.map(post => {
-                        return (<Post
-                            key={`key-post-${post.id}`}
-                            post={post}
-                            onDismissed={evt => {
-                                evt.stopPropagation();
-                                dispatch(actions.postDismissed(post));
-                            }}
-                            onSelected={() => dispatch(actions.postSelected(post))}
-                        />)
+                    {isDrawerVisible && posts && posts.map(post => {
+                        return (
+                            <Post
+                                key={`key-post-${post.id}`}
+                                post={post}
+                                isPostSelected={get(postSelected, 'id') === post.id}
+                                onDismissed={evt => {
+                                    evt.stopPropagation();
+                                    dispatch(actions.postDismissed(post));
+                                }}
+                                onSelected={() => dispatch(actions.postSelected(post))}
+                            />)
                     })}
                 </>
             </Drawer>

@@ -8,6 +8,7 @@ interface DefaultProps {
     post: PostType,
     onDismissed: (value:SyntheticEvent) => void,
     onSelected: () => void,
+    isPostSelected?: boolean
 }
 
 /**
@@ -21,10 +22,11 @@ export const Post: React.FC<DefaultProps> = ({
                                                  post,
                                                  onDismissed,
                                                  onSelected,
+                                                 isPostSelected,
                                              }
 ) => {
     return (
-        <Article isDismissed={post.isDismissed} onClick={onSelected}>
+        <Article data-is-selected={isPostSelected} aria-hidden={post.isDismissed} isDismissed={post.isDismissed} onClick={onSelected}>
             <Header>
                 {post.isViewed ? <Viewed/> : <UnViewed/>}
                 <h1>{post.author}</h1>

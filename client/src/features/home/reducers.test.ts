@@ -20,11 +20,13 @@ describe('HomePage Reducer', () => {
     });
 
     it('should change state to fetching post success', () => {
-        const data = [{name: 'brisa'}, {name: 'emi'}];
+        const payload = [{name: 'brisa'}, {name: 'emi'}];
 
-        const result = reducer(initialState, actions.fetchingPostSuccess(data));
+        const result = reducer(initialState, actions.fetchingPostSuccess({results: payload}));
 
-        expect(result.posts).toEqual(data);
+        expect(result.posts.length).toEqual(2);
+        expect(result.posts[0].name).toEqual('brisa');
+        expect(result.posts[1].name).toEqual('emi');
         expect(result.isRequestingPosts).toBeFalsy();
         expect(result.messageError).toEqual('');
     });

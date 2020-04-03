@@ -59,7 +59,7 @@ export function getAllSavedPost(): Post[] {
     const postsSaved = Object.keys(localStorage)
         .filter((key) => key.startsWith(POST_KEY_PREFIX))
         .map(getPostPersistedByString);
-    return cleanUndefinedPost(postsSaved);
+    return cleanUndefinedPost(postsSaved) || [];
 }
 
 /**

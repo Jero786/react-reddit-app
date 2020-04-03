@@ -50,15 +50,15 @@ export const Drawer: React.FC<DefaultProps> = ({
                     <PaginationButton onClick={onNextPage} text={isLoading ? 'loop' : 'navigate_next'}/>}
                 <Footer onClick={onDismissAll}>
                     {isDismissedAll ?
-                        <Button text="Recover All"/> :
-                        <Button text="Dismiss All"/>}
+                        <Button data-testid="recover-all" text="Recover All"/> :
+                        <Button data-testid="dismiss-all" text="Dismiss All"/>}
                 </Footer>
             </>
         </Aside>
     )
 };
 
-const Button: React.FC<DefaultPropsButton> = ({text}) => <button
+const Button: React.FC<DefaultPropsButton> = ({text, ...rest}) => <button {...rest}
     className={`mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-footer`}>{text}</button>
 
 const PaginationButton: React.FC<DefaultPropsButton> = ({isLoading, text, className, onClick}) => {
