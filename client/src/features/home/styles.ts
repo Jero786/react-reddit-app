@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { sideBarWidth } from "../../commons/components/drawer/styles";
+import styled from 'styled-components';
+import { sideBarWidth } from '../../commons/components/drawer/styles';
 
 interface DefaultProps {
   isDrawerVisible: boolean;

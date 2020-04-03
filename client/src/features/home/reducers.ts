@@ -1,6 +1,6 @@
-import { PayloadAction } from "@reduxjs/toolkit";
-import { Post } from "../../commons/types";
-import { getAllSavedPost } from "../../commons/middlewares/saveSession";
+import { PayloadAction } from '@reduxjs/toolkit';
+import { Post } from '../../commons/types';
+import { getAllSavedPost } from '../../commons/middlewares/saveSession';
 
 export interface DefaultState {
   posts: Post[];
@@ -18,7 +18,7 @@ export const initialState: DefaultState = {
   after: undefined,
   isRequestingPosts: true,
   isRequestingNextPage: false,
-  messageError: "",
+  messageError: '',
   isDismissedAll: false,
   currentPostSelected: undefined,
   isDismissed: false,
@@ -30,12 +30,12 @@ export const initialState: DefaultState = {
 export const reducers = {
   fetchingPost: (state: DefaultState) => {
     state.isRequestingPosts = true;
-    state.messageError = "";
+    state.messageError = '';
   },
 
   fetchingNextPost: (state: DefaultState) => {
     state.isRequestingNextPage = true;
-    state.messageError = "";
+    state.messageError = '';
   },
 
   fetchingPostSuccess: (state: DefaultState, action: PayloadAction<any>) => {
@@ -43,7 +43,7 @@ export const reducers = {
     state.posts = hydratePostWithExistingPost(state, results);
     state.after = after;
     state.isRequestingPosts = false;
-    state.messageError = "";
+    state.messageError = '';
   },
 
   fetchingNextPostSuccess: (
@@ -54,17 +54,17 @@ export const reducers = {
     state.posts = hydratePostWithExistingPost(state, results);
     state.after = after;
     state.isRequestingNextPage = false;
-    state.messageError = "";
+    state.messageError = '';
   },
 
   fetchingPostFailure: (state: DefaultState) => {
     state.isRequestingPosts = false;
-    state.messageError = "Something went wrong while fetching posts.";
+    state.messageError = 'Something went wrong while fetching posts.';
   },
 
   fetchingNextPostFailure: (state: DefaultState) => {
     state.isRequestingNextPage = false;
-    state.messageError = "Something went wrong while fetching next Posts.";
+    state.messageError = 'Something went wrong while fetching next Posts.';
   },
 
   postSelected: (state: DefaultState, action: PayloadAction<any>) => {
@@ -121,7 +121,6 @@ function hydratePostWithExistingPost(
       (post) => existingPostId.indexOf(post.id) === -1
     );
     return [...existingPost, ...newPostsFiltered];
-  } else {
-    return newPosts;
   }
+  return newPosts;
 }

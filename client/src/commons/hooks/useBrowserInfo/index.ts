@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 const deviceOrientation = () =>
-  Math.abs(Number(window.orientation)) === 90 ? "landscape" : "portrait";
+  Math.abs(Number(window.orientation)) === 90 ? 'landscape' : 'portrait';
 
 const getOrientation = (window: any) => {
   try {
+    // eslint-disable-next-line
     return window.screen &&
       window.screen.orientation &&
       window.screen.orientation.type
-      ? window.screen.orientation.type.replace("-primary", "")
+      ? window.screen.orientation.type.replace('-primary', '')
       : Number.isInteger(window.orientation)
-      ? deviceOrientation()
-      : "";
+      ? deviceOrientation() // eslint-disable-line
+      : ''; // eslint-disable-line
   } catch (e) {
-    return "";
+    return '';
   }
 };
 
 const Layouts = {
-  MOBILE: "MOBILE",
-  DESKTOP: "DESKTOP",
-  TABLET: "TABLET",
+  MOBILE: 'MOBILE',
+  DESKTOP: 'DESKTOP',
+  TABLET: 'TABLET',
 };
 
 const DEFAULT_BREAKPOINTS_SIZES = {
@@ -30,17 +31,17 @@ const DEFAULT_BREAKPOINTS_SIZES = {
   xs: 767,
 };
 
-type LayoutType = "MOBILE" | "DESKTOP" | "TABLET";
+type LayoutType = 'MOBILE' | 'DESKTOP' | 'TABLET';
 
 function calculateSizes(innerWidth: number): LayoutType {
   const { sm, md } = DEFAULT_BREAKPOINTS_SIZES;
   if (innerWidth <= sm) {
-    return "MOBILE";
-  } else if (innerWidth > sm && innerWidth <= md) {
-    return "TABLET";
-  } else {
-    return "DESKTOP";
+    return 'MOBILE';
   }
+  if (innerWidth > sm && innerWidth <= md) {
+    return 'TABLET';
+  }
+  return 'DESKTOP';
 }
 
 const getBrowserInfo = (layout: LayoutType) => {
@@ -48,8 +49,8 @@ const getBrowserInfo = (layout: LayoutType) => {
     isMobile: () => layout === Layouts.MOBILE,
     isTablet: () => layout === Layouts.TABLET,
     isDesktop: () => layout === Layouts.DESKTOP,
-    isOrientationPortrait: () => getOrientation(window) === "portrait",
-    isOrientationLandscape: () => getOrientation(window) === "landscape",
+    isOrientationPortrait: () => getOrientation(window) === 'portrait',
+    isOrientationLandscape: () => getOrientation(window) === 'landscape',
   };
 };
 
@@ -64,8 +65,8 @@ export const useBrowserInfo: any = () => {
   useEffect(() => {
     setSize(calculateSizes(window.innerWidth));
     const handleResize = () => setSize(calculateSizes(window.innerWidth));
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [currentSize]);
 
   return getBrowserInfo(currentSize);

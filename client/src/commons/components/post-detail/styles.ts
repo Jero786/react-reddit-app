@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const PostDetailWrapper = styled.article`
   padding: 1em;

@@ -1,8 +1,8 @@
-import React, { SyntheticEvent } from "react";
-import { Post as PostType } from "../../types";
-import { isValidUrl } from "../../utils";
-import { Article, Body, Header, Viewed, UnViewed } from "./styles";
-import moment from "moment";
+import moment from 'moment';
+import React, { SyntheticEvent } from 'react';
+import { Post as PostType } from '../../types';
+import { isValidUrl } from '../../utils';
+import { Article, Body, Header, Viewed, UnViewed } from './styles';
 
 interface DefaultProps {
   post: PostType;
@@ -36,6 +36,7 @@ export const Post: React.FC<DefaultProps> = ({
         <h1>{post.author}</h1>
         <span>{moment.unix(post.created).fromNow()}</span>
         <button
+          type="button"
           onClick={onDismissed}
           className="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-button--mini-fab"
         >
@@ -51,9 +52,9 @@ export const Post: React.FC<DefaultProps> = ({
         <div>
           <p>{post.title}</p>
           <span className="mdl-chip">
-            <span className="mdl-chip__text">{`${
-              post.num_comments || 0
-            } Comments`}</span>
+            <span className="mdl-chip__text">
+              {`${post.num_comments || 0} Comments`}
+            </span>
           </span>
         </div>
       </Body>

@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const sideBarWidth = "400px";
-const timeAnimation = ".5s";
+export const sideBarWidth = '400px';
+const timeAnimation = '.5s';
 
 interface DefaultProps {
   isExpanded: boolean;
@@ -14,20 +14,15 @@ export interface FooterProps {
 
 export const Aside = styled.aside<DefaultProps>((props) => {
   return {
-    background: "rgba(47, 47, 47, 0.78)",
-    color: "#ffff",
-    position: "fixed",
+    background: 'rgba(47, 47, 47, 0.78)',
+    color: '#ffff',
+    position: 'fixed',
     top: 0,
     bottom: 0,
-    width: props.isFullExpanded ? "100%" : sideBarWidth,
+    width: props.isFullExpanded ? '100%' : sideBarWidth,
     left: props.isExpanded ? 0 : `-${sideBarWidth}`,
     transition: `all ${timeAnimation}`,
-    overflow: "auto",
-    [".btn-pagination"]: {
-      bottom: "65px",
-      display: "flex",
-      cursor: "pointer",
-    },
+    overflow: 'auto',
   };
 });
 

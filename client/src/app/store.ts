@@ -3,9 +3,9 @@ import {
   ThunkAction,
   Action,
   getDefaultMiddleware,
-} from "@reduxjs/toolkit";
-import { reducer as homeReducer } from "../features/home";
-import { saveSession } from "../commons/middlewares/saveSession";
+} from '@reduxjs/toolkit';
+import { reducer as homeReducer } from '../features/home';
+import { saveSession } from '../commons/middlewares/saveSession';
 
 export const store = configureStore({
   reducer: {

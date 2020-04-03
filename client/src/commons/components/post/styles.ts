@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface ArticleDefaultProps {
   isDismissed: boolean;
@@ -6,18 +6,18 @@ interface ArticleDefaultProps {
 
 export const Article = styled.article<ArticleDefaultProps>((props) => {
   return {
-    position: "relative",
-    transition: "all .7s",
-    ":hover": {
-      "background-color": "#464646",
-      cursor: "pointer",
+    position: 'relative',
+    transition: 'all .7s',
+    ':hover': {
+      'background-color': '#464646',
+      cursor: 'pointer',
     },
     transform: props.isDismissed
-      ? "translateX(-400px) scale(1)"
-      : "translateX(0) scale(1)",
-    opacity: props.isDismissed ? "0" : "1",
-    height: props.isDismissed ? "0" : "auto",
-    padding: props.isDismissed ? "0" : "15px",
+      ? 'translateX(-400px) scale(1)'
+      : 'translateX(0) scale(1)',
+    opacity: props.isDismissed ? '0' : '1',
+    height: props.isDismissed ? '0' : 'auto',
+    padding: props.isDismissed ? '0' : '15px',
   };
 });
 

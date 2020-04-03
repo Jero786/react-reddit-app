@@ -1,9 +1,9 @@
-import React from "react";
-import { PostDetailWrapper, FigureWrapper } from "./styles";
-import { useDispatch } from "react-redux";
-import { actions } from "../../../features/home";
-import { Post } from "../../types";
-import { isValidUrl } from "../../utils";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { PostDetailWrapper, FigureWrapper } from './styles';
+import { actions } from '../../../features/home';
+import { Post } from '../../types';
+import { isValidUrl } from '../../utils';
 
 interface DefaultProps {
   post: Post;
@@ -31,12 +31,13 @@ export const PostDetail: React.FC<DefaultProps> = ({ post }) => {
           )}
         </FigureWrapper>
       </div>
-      <div className="mdl-card__actions mdl-card--border"></div>
+      <div className="mdl-card__actions mdl-card--border" />
       <div className="mdl-card__supporting-text">
         {post.selftext || post.title}
       </div>
       <div className="mdl-card__menu">
         <button
+          type="button"
           onClick={() => dispatch(actions.postDismissed(post))}
           className="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"
         >

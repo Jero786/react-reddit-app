@@ -1,13 +1,13 @@
-import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import { Post } from "./index";
+import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
+import { Post } from './index';
 
 const postFactory = ({
-  title = "some title",
+  title = 'some title',
   isDismissed = false,
   isViewed = false,
   created = 12345,
-  thumbnail = "http://some-awesome-image-here.svg",
+  thumbnail = 'http://some-awesome-image-here.svg',
 }) => ({
   title,
   isDismissed,
@@ -16,18 +16,18 @@ const postFactory = ({
   thumbnail,
 });
 
-jest.mock("react-redux", () => ({
+jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(),
 }));
 
-describe("Post", () => {
+describe('Post', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
 
-  it("should render post properly", () => {
-    const { getByText, getByAltText, debug } = render(
+  it('should render post properly', () => {
+    const { getByText, getByAltText } = render(
       <Post
         post={postFactory({})}
         onDismissed={() => {}}
@@ -39,9 +39,9 @@ describe("Post", () => {
     expect(getByAltText(/some title/i)).toBeInTheDocument();
   });
 
-  it("should call onSelect properly", () => {
+  it('should call onSelect properly', () => {
     const onSelect = jest.fn();
-    const { getByText, getByAltText, debug } = render(
+    const { getByText } = render(
       <Post
         post={postFactory({})}
         onDismissed={() => {}}
@@ -54,9 +54,9 @@ describe("Post", () => {
     expect(onSelect).toHaveBeenCalled();
   });
 
-  it("should call onDismissed properly", () => {
+  it('should call onDismissed properly', () => {
     const onSelect = jest.fn();
-    const { getByText, getByAltText, debug } = render(
+    const { getByText } = render(
       <Post
         post={postFactory({})}
         onDismissed={() => {}}

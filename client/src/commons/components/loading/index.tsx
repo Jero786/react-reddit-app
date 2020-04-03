@@ -1,5 +1,5 @@
-import React from "react";
-import { LoadingWrapper } from "./styles";
+import React from 'react';
+import { LoadingWrapper } from './styles';
 
 export const Loading = () => (
   <LoadingWrapper

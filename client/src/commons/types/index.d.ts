@@ -1,4 +1,4 @@
-import { SyntheticEvent } from "react";
+import { SyntheticEvent } from 'react';
 
 /**
  * This Object represent a Reddit Post object.

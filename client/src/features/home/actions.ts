@@ -1,9 +1,10 @@
-import { AppThunk } from "../../app/store";
-import { Post } from "../../commons/types";
-import { API_URL } from "../../env";
-import { actions } from ".";
-import axios from "axios";
-import get from "lodash/get";
+import axios from 'axios';
+import get from 'lodash/get';
+
+import { AppThunk } from '../../app/store';
+import { Post } from '../../commons/types';
+import { API_URL } from '../../env';
+import { actions } from '.';
 
 /**
  * Fetching the top 50 of Reddit post.
@@ -41,9 +42,9 @@ export const fetchNextTop = (lastPost: Post): AppThunk => async (dispatch) => {
  * @param response
  */
 function getPayloadFromResponse(response: any) {
-  const data = get(response, "data.data", []);
-  const results = get(data, "children");
-  const after = get(results, "after");
+  const data = get(response, 'data.data', []);
+  const results = get(data, 'children');
+  const after = get(results, 'after');
   return {
     results: results.map((post: any) => post.data),
     after,

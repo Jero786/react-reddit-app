@@ -1,5 +1,5 @@
-import { RootState } from "../../app/store";
-import { Post } from "../../commons/types";
+import { RootState } from '../../app/store';
+import { Post } from '../../commons/types';
 
 export const selectPosts = (state: RootState): Post[] => state.home.posts || [];
 export const selectIsRequestingPosts = (state: RootState): boolean =>

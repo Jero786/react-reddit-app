@@ -1,29 +1,29 @@
 // Libs
-import React from "react";
-import { renderWithRedux } from "../../commons/utils";
+import React from 'react';
 
 // Hooks
-import { fireEvent } from "@testing-library/react";
+import { fireEvent } from '@testing-library/react';
 
 // Selectors
 import {
   selectIsRequestingPosts as mockSelectIsRequestingPosts,
   selectPosts as mockSelectPosts,
-} from "./selectors";
+} from './selectors';
 
 // Actions
-import { actions } from ".";
-import { fetchNextTop } from "./actions";
+import { actions } from '.';
+import { fetchNextTop } from './actions';
 
 // Sut
-import { HomePage } from "./Page";
+import { HomePage } from './Page';
+import { renderWithRedux } from '../../commons/utils';
 
-jest.mock("./selectors");
-jest.mock("./hooks");
-jest.mock("./actions");
-jest.mock(".");
+jest.mock('./selectors');
+jest.mock('./hooks');
+jest.mock('./actions');
+jest.mock('.');
 
-describe("Home Page", () => {
+describe('Home Page', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -32,7 +32,7 @@ describe("Home Page", () => {
     jest.restoreAllMocks();
   });
 
-  it("should display loading indicator", () => {
+  it('should display loading indicator', () => {
     // Arrange
     mockSelectIsRequestingPosts.mockReturnValue(true);
 
@@ -40,10 +40,10 @@ describe("Home Page", () => {
     const { getByTestId } = renderWithRedux(<HomePage />);
 
     // Assert
-    expect(getByTestId("locator-loading")).toBeInTheDocument();
+    expect(getByTestId('locator-loading')).toBeInTheDocument();
   });
 
-  it("should render properly the top and bottom of sidebar", () => {
+  it('should render properly the top and bottom of sidebar', () => {
     // Arrange
     mockSelectIsRequestingPosts.mockReturnValue(false);
     mockSelectPosts.mockReturnValue([]);
@@ -56,17 +56,17 @@ describe("Home Page", () => {
     expect(getByText(/dismiss all/i));
   });
 
-  it("should render properly the title and alt text of image", () => {
+  it('should render properly the title and alt text of image', () => {
     // Arrange
     mockSelectIsRequestingPosts.mockReturnValue(false);
     mockSelectPosts.mockReturnValue([
       {
         id: 1,
-        title: "Brisa posts",
+        title: 'Brisa posts',
       },
       {
         id: 2,
-        title: "Emir posts",
+        title: 'Emir posts',
       },
     ]);
 
@@ -80,17 +80,17 @@ describe("Home Page", () => {
     expect(getByAltText(/Emir posts/i));
   });
 
-  it("should render properly post detail", () => {
+  it('should render properly post detail', () => {
     // Arrange
     mockSelectIsRequestingPosts.mockReturnValue(false);
     mockSelectPosts.mockReturnValue([
       {
         id: 1,
-        title: "Brisa posts",
+        title: 'Brisa posts',
       },
       {
         id: 2,
-        title: "Emir posts",
+        title: 'Emir posts',
       },
     ]);
 
@@ -102,15 +102,15 @@ describe("Home Page", () => {
     expect(getByText(/Emir posts/i));
   });
 
-  describe("when the user user", () => {
+  describe('when the user user', () => {
     it('click on dismiss button, should trigger "dismiss all" action', () => {
       // Arrange
       mockSelectIsRequestingPosts.mockReturnValue(false);
-      actions.postDismissedAll.mockReturnValue({ type: "type", payload: {} });
+      actions.postDismissedAll.mockReturnValue({ type: 'type', payload: {} });
       const { getByTestId } = renderWithRedux(<HomePage />);
 
       // Act
-      fireEvent.click(getByTestId("dismiss-all"));
+      fireEvent.click(getByTestId('dismiss-all'));
 
       // Assert
       expect(actions.postDismissedAll).toHaveBeenCalledTimes(1);
@@ -119,11 +119,11 @@ describe("Home Page", () => {
     it('click on next page, should trigger "navigate next" action', () => {
       // Arrange
       mockSelectIsRequestingPosts.mockReturnValue(false);
-      fetchNextTop.mockReturnValue({ type: "type", payload: {} });
+      fetchNextTop.mockReturnValue({ type: 'type', payload: {} });
       const { getByText } = renderWithRedux(<HomePage />);
 
       // Act
-      fireEvent.click(getByText("navigate_next"));
+      fireEvent.click(getByText('navigate_next'));
 
       // Assert
       expect(fetchNextTop).toHaveBeenCalledTimes(1);
@@ -131,15 +131,15 @@ describe("Home Page", () => {
 
     it('click on specific post, should trigger "select post" action', () => {
       // Arrange
-      const postSelected = { id: 1, title: "Brisa posts" };
+      const postSelected = { id: 1, title: 'Brisa posts' };
       mockSelectIsRequestingPosts.mockReturnValue(false);
       actions.postSelected.mockReturnValue({
-        type: "type",
+        type: 'type',
         payload: postSelected,
       });
       mockSelectPosts.mockReturnValue([
         postSelected,
-        { id: 2, title: "Emir posts" },
+        { id: 2, title: 'Emir posts' },
       ]);
       const { getByText } = renderWithRedux(<HomePage />);
 

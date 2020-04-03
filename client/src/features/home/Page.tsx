@@ -1,24 +1,24 @@
-// Styles
-import { HomePageWrapper } from "./styles";
-
 // Libs
-import React from "react";
-import get from "lodash/get";
+import React from 'react';
+import get from 'lodash/get';
+import { useSelector, useDispatch } from 'react-redux';
+
+// Styles
+import { HomePageWrapper } from './styles';
 
 // Hooks
-import { useFetchTop } from "./hooks";
-import { useSelector, useDispatch } from "react-redux";
+import { useFetchTop } from './hooks';
 
 // Actions
-import { actions } from ".";
-import { fetchNextTop } from "./actions";
+import { actions } from '.';
+import { fetchNextTop } from './actions';
 
 // Components
-import { Post } from "../../commons/components/post";
-import { Drawer } from "../../commons/components/drawer";
-import { Loading } from "../../commons/components/loading";
-import { useBrowserInfo } from "../../commons/hooks/useBrowserInfo";
-import { PostDetail } from "../../commons/components/post-detail";
+import { Post } from '../../commons/components/post';
+import { Drawer } from '../../commons/components/drawer';
+import { Loading } from '../../commons/components/loading';
+import { useBrowserInfo } from '../../commons/hooks/useBrowserInfo';
+import { PostDetail } from '../../commons/components/post-detail';
 
 // Selectors
 import {
@@ -28,7 +28,7 @@ import {
   selectIsDismissedAll,
   selectPostSelected,
   selectIsRequestingNextPage,
-} from "./selectors";
+} from './selectors';
 
 export const HomePage = () => {
   const browserInfo = useBrowserInfo();
@@ -67,7 +67,7 @@ export const HomePage = () => {
                 <Post
                   key={`key-post-${post.id}`}
                   post={post}
-                  isPostSelected={get(postSelected, "id") === post.id}
+                  isPostSelected={get(postSelected, 'id') === post.id}
                   onDismissed={(evt) => {
                     evt.stopPropagation();
                     dispatch(actions.postDismissed(post));
@@ -96,4 +96,5 @@ function getLastPost(posts: any[]) {
   if (posts && posts.length) {
     return posts.slice(-1)[0];
   }
+  return posts;
 }

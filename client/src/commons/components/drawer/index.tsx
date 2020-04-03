@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import { Aside, Header, Footer, Body } from "./styles";
+import { Aside, Header, Footer, Body } from './styles';
 
 export interface DefaultProps {
   isExpanded: boolean;
@@ -46,7 +46,7 @@ export const Drawer: React.FC<DefaultProps> = ({
         {isDismissedAll ? null : (
           <PaginationButton
             onClick={onNextPage}
-            text={isLoading ? "loop" : "navigate_next"}
+            text={isLoading ? 'loop' : 'navigate_next'}
           />
         )}
         <Footer onClick={onDismissAll}>
@@ -63,8 +63,9 @@ export const Drawer: React.FC<DefaultProps> = ({
 
 const Button: React.FC<DefaultPropsButton> = ({ text, ...rest }) => (
   <button
+    type="button"
     {...rest}
-    className={`mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-footer`}
+    className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect btn-footer"
   >
     {text}
   </button>
@@ -73,8 +74,9 @@ const Button: React.FC<DefaultPropsButton> = ({ text, ...rest }) => (
 const PaginationButton: React.FC<DefaultPropsButton> = ({ text, onClick }) => {
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={`mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored btn-pagination`}
+      className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored btn-pagination"
     >
       <i className="material-icons">{text}</i>
     </button>

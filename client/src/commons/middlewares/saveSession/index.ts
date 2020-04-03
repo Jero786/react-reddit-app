@@ -1,8 +1,8 @@
-import { Post } from "../../types";
-import { DefaultState } from "../../../features/home/reducers";
-import memoize from "lodash/memoize";
+import memoize from 'lodash/memoize';
+import { Post } from '../../types';
+import { DefaultState } from '../../../features/home/reducers';
 
-const POST_KEY_PREFIX = "post-key-";
+const POST_KEY_PREFIX = 'post-key-';
 
 interface CustomStoreProps {
   getState: () => { home: DefaultState };
@@ -41,9 +41,9 @@ function filterPostChanged(store: CustomStoreProps): Post[] {
     return store
       .getState()
       .home.posts.filter((post) => post.isNeededToPersistState);
-  } else {
-    return [];
   }
+
+  return [];
 }
 
 /**
@@ -72,9 +72,7 @@ export function getAllSavedPost(): Post[] {
  */
 function getPostPersistedByString(key: string): Post | undefined {
   const postSaved = localStorage.getItem(key);
-  if (postSaved) {
-    return JSON.parse(postSaved);
-  }
+  return JSON.parse(postSaved || '{}');
 }
 
 function cleanUndefinedPost(posts: any[] = []): Post[] {
