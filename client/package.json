@@ -34,7 +34,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build && rm -fr ../server/build && mv build ../server/.",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test-coverage": "npm test -- --coverage",
+    "eject": "react-scripts eject",
+    "lint": "./node_modules/.bin/prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "eslintConfig": {
     "extends": ["react-app", "shared-config"],
