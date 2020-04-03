@@ -20,7 +20,6 @@ export const isValidUrl = (url: string) => {
  * A test utils that help us to test mock view containers.
  * @param ui
  * @param customInitialState
- * @param u
  */
 export function renderWithRedux(
   ui: ReactElement,
