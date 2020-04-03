@@ -45,10 +45,13 @@ export const HomePage = () => {
   if (isRequestingPosts) {
     return <Loading />;
   }
-  const isDrawerVisible = !postSelected
-    ? true
-    : !browserInfo.isMobile() && browserInfo.isOrientationLandscape();
-  const isFullExpanded = !postSelected && browserInfo.isMobile();
+
+  const isPostNotSelected = !postSelected;
+  const isDesktop = !browserInfo.isMobile();
+  const isDrawerVisible =
+    isPostNotSelected || (isDesktop && browserInfo.isOrientationLandscape());
+  const isFullExpanded = isPostNotSelected && browserInfo.isMobile();
+
   return (
     <HomePageWrapper isDrawerVisible={isDrawerVisible}>
       <Drawer
