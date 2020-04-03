@@ -23,6 +23,12 @@ export const Aside = styled.aside<DefaultProps>((props) => {
     left: props.isExpanded ? 0 : `-${sideBarWidth}`,
     transition: `all ${timeAnimation}`,
     overflow: 'auto',
+    // eslint-disable-next-line
+    ['.btn-pagination']: {
+      bottom: '65px',
+      display: 'flex',
+      cursor: 'pointer',
+    },
   };
 });
 
