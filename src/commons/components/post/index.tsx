@@ -1,7 +1,6 @@
-import moment from 'moment';
 import React, { SyntheticEvent } from 'react';
 import { Post as PostType } from '../../types';
-import { isValidUrl } from '../../utils';
+import { isValidUrl, getDate } from '../../utils';
 import { Article, Body, Header, Viewed, UnViewed } from './styles';
 
 interface DefaultProps {
@@ -32,9 +31,13 @@ export const Post: React.FC<DefaultProps> = ({
       onClick={onSelected}
     >
       <Header>
-        {post.isViewed ? <Viewed /> : <UnViewed />}
+        {post.isViewed ? (
+          <Viewed data-testid="is-readed" />
+        ) : (
+          <UnViewed data-testid="is-non-readed" />
+        )}
         <h1>{post.author}</h1>
-        <span>{moment.unix(post.created).fromNow()}</span>
+        <span>{getDate(post.created)}</span>
         <button
           type="button"
           onClick={onDismissed}

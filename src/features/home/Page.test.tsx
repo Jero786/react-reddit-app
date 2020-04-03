@@ -16,7 +16,9 @@ import { fetchNextTop } from './actions';
 
 // Sut
 import { HomePage } from './Page';
-import { renderWithRedux } from '../../commons/utils';
+import * as utils from '../../commons/utils';
+
+const { renderWithRedux } = utils;
 
 jest.mock('./selectors');
 jest.mock('./hooks');
@@ -63,10 +65,14 @@ describe('Home Page', () => {
       {
         id: 1,
         title: 'Brisa posts',
+        thumbnail:
+          'https://b.thumbs.redditmedia.com/nfXTmI3L6vamk16uJcHNF1YQJN328JZ-2yuh5S80EuA.jpg',
       },
       {
         id: 2,
         title: 'Emir posts',
+        thumbnail:
+          'https://b.thumbs.redditmedia.com/nfXTmI3L6vamk16uJcHNF1YQJN328JZ-2yuh5S80EuA.jpg',
       },
     ]);
 
@@ -78,6 +84,58 @@ describe('Home Page', () => {
     expect(getByText(/Emir posts/i));
     expect(getByAltText(/Brisa posts/i));
     expect(getByAltText(/Emir posts/i));
+  });
+
+  it('should render properly when was posted', () => {
+    // Arrange
+    mockSelectIsRequestingPosts.mockReturnValue(false);
+    utils.getDate = jest.fn().mockReturnValue('10 hours ago');
+    mockSelectPosts.mockReturnValue([
+      {
+        id: 1,
+        created: 1585858341,
+      },
+    ]);
+
+    // Act
+    const { getByText } = renderWithRedux(<HomePage />);
+
+    // Assert
+    expect(getByText(/10 hours ago/i)).toBeInTheDocument();
+  });
+
+  it('should indicate when is already readed', () => {
+    // Arrange
+    mockSelectIsRequestingPosts.mockReturnValue(false);
+    mockSelectPosts.mockReturnValue([
+      {
+        id: 1,
+        isViewed: true,
+      },
+    ]);
+
+    // Act
+    const { getByTestId } = renderWithRedux(<HomePage />);
+
+    // Assert
+    expect(getByTestId('is-readed')).toBeInTheDocument();
+  });
+
+  it('should indicate when is not readed yet', () => {
+    // Arrange
+    mockSelectIsRequestingPosts.mockReturnValue(false);
+    mockSelectPosts.mockReturnValue([
+      {
+        id: 1,
+        isViewed: false,
+      },
+    ]);
+
+    // Act
+    const { getByTestId } = renderWithRedux(<HomePage />);
+
+    // Assert
+    expect(getByTestId('is-non-readed')).toBeInTheDocument();
   });
 
   it('should render properly post detail', () => {
@@ -131,7 +189,10 @@ describe('Home Page', () => {
 
     it('click on specific post, should trigger "select post" action', () => {
       // Arrange
-      const postSelected = { id: 1, title: 'Brisa posts' };
+      const postSelected = {
+        id: 1,
+        title: 'Brisa posts',
+      };
       mockSelectIsRequestingPosts.mockReturnValue(false);
       actions.postSelected.mockReturnValue({
         type: 'type',

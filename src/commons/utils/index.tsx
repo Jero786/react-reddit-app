@@ -1,8 +1,9 @@
 import { createStore } from 'redux';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import React, { ReactElement } from 'react';
+import moment from 'moment';
 
+import React, { ReactElement } from 'react';
 import { DefaultState, initialState } from '../../features/home/reducers';
 import { reducer } from '../../features/home';
 
@@ -33,4 +34,12 @@ export function renderWithRedux(
     // this to test implementation details).
     store,
   };
+}
+
+/**
+ * Given a date return how long time passed from that date.
+ * @param date
+ */
+export function getDate(date: number) {
+  return moment.unix(date).fromNow();
 }
