@@ -1,17 +1,14 @@
 // Libs
 import React from "react";
 import { renderWithRedux } from "../../commons/utils";
-import axios from "axios";
 
 // Hooks
-import { render, fireEvent, act } from "@testing-library/react";
-import { useSelector, useDispatch } from "react-redux";
+import { fireEvent } from "@testing-library/react";
 
 // Selectors
 import {
   selectIsRequestingPosts as mockSelectIsRequestingPosts,
   selectPosts as mockSelectPosts,
-  selectPostSelected as mockSelectPostSelected,
 } from "./selectors";
 
 // Actions
@@ -113,7 +110,7 @@ describe("Home Page", () => {
       const { getByTestId } = renderWithRedux(<HomePage />);
 
       // Act
-      act(() => fireEvent.click(getByTestId("dismiss-all")));
+      fireEvent.click(getByTestId("dismiss-all"));
 
       // Assert
       expect(actions.postDismissedAll).toHaveBeenCalledTimes(1);
@@ -126,7 +123,7 @@ describe("Home Page", () => {
       const { getByText } = renderWithRedux(<HomePage />);
 
       // Act
-      act(() => fireEvent.click(getByText("navigate_next")));
+      fireEvent.click(getByText("navigate_next"));
 
       // Assert
       expect(fetchNextTop).toHaveBeenCalledTimes(1);
@@ -147,7 +144,7 @@ describe("Home Page", () => {
       const { getByText } = renderWithRedux(<HomePage />);
 
       // Act
-      act(() => fireEvent.click(getByText(/Brisa posts/i)));
+      fireEvent.click(getByText(/Brisa posts/i));
 
       // Assert
       expect(actions.postSelected).toHaveBeenCalledTimes(1);
